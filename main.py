@@ -21,15 +21,22 @@ while True:
     opcao = input(menu).strip().lower()
 
     if opcao == "d":
-        valor = float(input("Informe o valor do depósito: "))
+        try:
+            valor = float(input("Informe o valor do depósito: "))
+
+        except ValueError:
+            print("Operação falhou! Informe um valor numérico válido.")
+            continue
 
         if valor > 0:
             saldo += valor
             extrato += f"Depósito: R$ {valor:.2f}\n"
+
             print(
                 f"Depósito de R$ {valor:.2f} realizado com sucesso! "
                 f"Saldo atual: R$ {saldo:.2f}"
             )
+
         else:
             print("Operação falhou! O valor informado é inválido.")
 
@@ -37,7 +44,12 @@ while True:
 
         print(f"Saldo atual: R$ {saldo:.2f}")
 
-        valor = float(input("Informe o valor do saque: "))
+        try:
+            valor = float(input("Informe o valor do saque: "))
+
+        except ValueError:
+            print("Operação falhou! Informe um valor numérico válido.")
+            continue
 
         excedeu_saldo = valor > saldo
         excedeu_limite = valor > LIMITE_SAQUE
@@ -59,14 +71,21 @@ while True:
             saldo -= valor
             extrato += f"Saque: R$ {valor:.2f}\n"
             numero_saques += 1
+
             print(
                 f"Saque de R$ {valor:.2f} realizado com sucesso! "
                 f"Saldo atual: R$ {saldo:.2f}"
             )
-            
+
     elif opcao == "e":
         print("\n================ EXTRATO ================")
-        print("Não foram realizadas movimentações." if not extrato else extrato)
+
+        print(
+            "Não foram realizadas movimentações."
+            if not extrato
+            else extrato
+        )
+
         print(f"\nSaldo: R$ {saldo:.2f}")
         print("==========================================")
 
@@ -75,4 +94,7 @@ while True:
         break
 
     else:
-        print("Operação inválida, por favor selecione novamente a operação desejada.")
+        print(
+            "Operação inválida, por favor selecione novamente "
+            "a operação desejada."
+        )
